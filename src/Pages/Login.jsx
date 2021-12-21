@@ -4,6 +4,8 @@ import { baseUrl } from '../services/BaseUrl';
 import { _login } from '../store/actions/loginaction'
 import {connect} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
+import Ajux_loader from './../assests/Ajux_loader.gif';
+
 
 
 const Login = (props) => {
@@ -19,12 +21,13 @@ const Login = (props) => {
      
     console.log(email, password);
     const params = { email, password };
+    
 
     const obj = {
-        // email: email,
-        // password: password
-        email: 'zavierblade@mailinator.com',
-        password: 'password'  
+        email: email,
+        password: password
+        // email: 'zavierblade@mailinator.com',
+        // password: 'password'  
     }
    props.is_login(obj)
    if(props.isLoggedIn.isLoggedIn !== null  ){
@@ -58,7 +61,9 @@ const Login = (props) => {
                
                 
                 <input type="button" value="Submit" onClick={LoginUser} />
+               
               </form>
+            
         </div>
     )
 }
@@ -66,6 +71,8 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
     return {
             isLoggedIn: state
+            
+           
     }
 }
 

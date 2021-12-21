@@ -1,6 +1,9 @@
 import logintypes from '../types/logintypes'
 import { baseUrl } from '../../services/BaseUrl'
 import API from '../../services/API'
+// import React , {useState } from 'react';
+// import UseLoader from '../../component/UseLoader';
+
 
 // export function _login(obj) {
 //     console.log('obj',obj)
@@ -26,15 +29,23 @@ import API from '../../services/API'
 
 
 
+
 export const _login = (obj) => async dispatch => {
+
+   
+   
     try {
+      
         const res = await API.post(baseUrl + 'user/login', obj)
         console.log('res', res)
         localStorage.setItem('token', JSON.stringify(res.data.token))
+        
+     
         dispatch({
             type: logintypes.lOGINSUCESS,
             payload: res
         })
+     
     }
     catch (e) {
         dispatch({
@@ -42,5 +53,8 @@ export const _login = (obj) => async dispatch => {
             payload: console.log(e),
         })
     }
+   
+   
 
 }
+
