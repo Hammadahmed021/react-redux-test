@@ -5,6 +5,7 @@ import { _login } from '../store/actions/loginaction'
 import {connect} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import Ajux_loader from './../assests/Ajux_loader.gif';
+import SignupUser from '../component/SignupUser';
 
 
 
@@ -43,6 +44,7 @@ const Login = (props) => {
     // })
   };
     return (
+      <>
         <div>
             <form action="" >
                 <input
@@ -65,6 +67,12 @@ const Login = (props) => {
               </form>
             
         </div>
+        <div className='container'>
+          <div className='row'>
+            <SignupUser />
+          </div>
+        </div>
+        </>
     )
 }
 
