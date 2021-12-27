@@ -17,6 +17,7 @@ import axios from "axios";
 import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
 import moment from "moment";
 import API from "../services/API";
+  
 
 const { Option } = Select;
 
@@ -103,11 +104,16 @@ const RegistrationForm = () => {
       console.log(error);
     }
   };
-
+ 
   const saloonRegister = async (params) => {
+    
     try {
+      console.log(params);
       const { data } = await API.post("/salon/register", params);
+      
       console.log(data);
+     
+      
       // console.log(area);
     } catch (error) {
       console.log(error);
@@ -177,7 +183,7 @@ const RegistrationForm = () => {
       } else formData.append(key, val);
     });
     console.log(params);
-    saloonRegister(formData).then(res=>form.setFieldsValue([]));
+    saloonRegister(formData).then(res=>form.setFieldsValue([]),  form.resetFields());
   };
 
   const normFile = (e) => {
@@ -466,7 +472,7 @@ const RegistrationForm = () => {
               </Checkbox>
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" >
                 Register
               </Button>
             </Form.Item>

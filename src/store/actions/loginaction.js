@@ -1,6 +1,9 @@
 import logintypes from "../types/logintypes";
 import { baseUrl } from "../../services/BaseUrl";
 import API from "../../services/API";
+import Auth from "../../services/Auth";
+import SignupUser from "../types/signupUser";
+
 // import React , {useState } from 'react';
 // import UseLoader from '../../component/UseLoader';
 
@@ -42,3 +45,32 @@ export const _login = (obj) => async (dispatch) => {
     });
   }
 };
+
+// export const userRegister = (name,lat,long,email,password,address,city,country,area) => (dispatch) => {
+//   return AuthService.userRegister(name,lat,long,email,password,address,city,country,area).then(
+//     (response) => {
+//       dispatch({
+//         type: USER_REGISTER_SUCCESS,
+//         payload: response.data.message,
+//       });
+
+      
+//       return Promise.resolve();
+//     },
+//     (error) => {
+//       const message =
+//         (error.response &&
+//           error.response.data &&
+//           error.response.data.message) ||
+//         error.message ||
+//         error.toString();
+
+//       dispatch({
+//         type: USER_REGISTER_FAIL,
+//         payload: message,
+//       });
+
+//          return Promise.reject();
+//     }
+//   );
+// };

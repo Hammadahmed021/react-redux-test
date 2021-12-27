@@ -6,6 +6,8 @@ import {connect} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import Ajux_loader from './../assests/Ajux_loader.gif';
 import SignupUser from '../component/SignupUser';
+import logo from './../assests/logo-dark.png'
+import { Footer } from './Footer';
 
 
 
@@ -45,7 +47,7 @@ const Login = (props) => {
   };
     return (
       <>
-        <div>
+        {/* <div>
             <form action="" >
                 <input
                   type="email"
@@ -66,12 +68,19 @@ const Login = (props) => {
                
               </form>
             
-        </div>
+        </div> */}
+        <section className='signup'>
         <div className='container'>
           <div className='row'>
+            <div className='signup-user signup-saloon'>
+              <img src={logo} alt="" />
+              <h1>User Registration</h1>
+            </div>
             <SignupUser />
           </div>
         </div>
+        <Footer />
+        </section>
         </>
     )
 }

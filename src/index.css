@@ -1,16 +1,18 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Roboto Mono';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Montserrat', sans-serif;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;800&family=Roboto+Mono:wght@300;400;500&display=swap');
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .gpt3__navbar {
   background-color: aliceblue;
 }
@@ -52,4 +54,87 @@ content: '';
     background: radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
 
     background: -webkit-radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+}
+.main-landing {
+  
+  left: 0;
+  right: 0;
+  text-align: center;
+  
+  width: 100%;
+}
+.landing-sub {
+  margin-top: 15% !important;
+  background: #e4e4e436;
+  width: 40%;
+  min-height: 250px;
+  position: absolute;
+  left: 0;
+  margin: 0 auto;
+  border-radius: 5px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0px 10px 15px 10px rgb(0 0 0 / 15%);
+  right: 0;
+}
+
+.landing-sub img {
+  margin-top: 30px;
+  width: 50%;
+}
+.btn-together a {
+  margin: 0 5px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  padding: 10px 40px;
+  border-radius: 5px;
+  background: #556ee6;
+  transition: all 0.5s ease ;
+}
+.btn-together a:hover{
+  color: #556ee6;
+  background: white ;
+}
+.btn-together {
+  margin-bottom: 65px;
+}
+.Main-section{
+  background: url(./assests/wallpaperflare.com_wallpaper.jpg) no-repeat;
+    position: relative;
+    background-size: cover;
+    background-position: 100% 100%;
+    height: 100vh;
+}
+.landing-sub h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 54px;
+}
+.landing-sub .btn-together a {
+  font-size: 14px;
+  font-family: 'Roboto Mono';
+  font-weight: 400;
+}
+.signup-user.signup-saloon {
+  text-align: center;
+}
+.signup-user.signup-saloon img {
+  width: 30%;
+}
+.signup-user.signup-saloon h1 {
+  font-size: 26px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  margin-top: 30px;
+}
+.signup{
+  background:#efefef12;
+}
+footer.footer {
+  text-align: center;
+  font-family: 'Roboto Mono';
+}
+.ant-form{
+  font-family: 'Montserrat';
 }

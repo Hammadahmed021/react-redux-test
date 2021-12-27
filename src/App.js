@@ -8,6 +8,7 @@ import React , {useEffect , useState } from 'react';
 import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Footer } from './Pages/Footer';
 
 function App() {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -52,22 +53,23 @@ function App() {
   return (
     
     <>  
-      <Navbar />
+      
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/About" element={<About />} />
+      {/* <Route path="/About" element={<About />} />
     
-      <Route path="/Dashboard" element={<Dashboard/>} />
+      <Route path="/Dashboard" element={<Dashboard/>} /> */}
      
       <Route path="/Login" element={<Login />} />
       <Route path="/Signup" element={<Signup />} />
-      <Route path="/Logout" element={<Logout/>} />   
-      <Route path="/Service" element={<Service/>} /> 
+      {/* <Route path="/Logout" element={<Logout/>} />    */}
+      {/* <Route path="/Service" element={<Service/>} />  */}
       
       </Routes>
       {
         loading && <div className='spinLoader'><Spin indicator={antIcon} /></div>
       } 
+   
     </>
 
   

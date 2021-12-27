@@ -27,42 +27,42 @@ const Menu = () => {
   );
 };
 
-const Menu2 = () => {
-  const navigate = useNavigate();
+// const Menu2 = () => {
+//   const navigate = useNavigate();
 
-  const _logOut = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
-  return (
-    <>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/About">About</Link>
-        </li>
-        <li>
-          <Link to="/Service">Service</Link>
-        </li>
-        <li>
-          <Link to="/Dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <button
-            type="button"
-            onClick={() => {
-              _logOut();
-            }}
-          >
-            Logout
-          </button>
-        </li>
-      </ul>
-    </>
-  );
-};
+//   const _logOut = () => {
+//     localStorage.removeItem("token");
+//     navigate("/");
+//   };
+//   return (
+//     <>
+//       <ul>
+//         <li>
+//           <Link to="/">Home</Link>
+//         </li>
+//         <li>
+//           <Link to="/About">About</Link>
+//         </li>
+//         <li>
+//           <Link to="/Service">Service</Link>
+//         </li>
+//         <li>
+//           <Link to="/Dashboard">Dashboard</Link>
+//         </li>
+//         <li>
+//           <button
+//             type="button"
+//             onClick={() => {
+//               _logOut();
+//             }}
+//           >
+//             Logout
+//           </button>
+//         </li>
+//       </ul>
+//     </>
+//   );
+// };
 
 export const Navbar = () => {
   const [menuShow, setMenuShow] = useState(false);
@@ -91,7 +91,7 @@ export const Navbar = () => {
           <img src="" alt="Logo" />
         </div>
         <div className="gpt3__navbar__links_container">
-          {menuShow ? <Menu2 /> : <Menu />}
+          {<Menu />}
         </div>
       </div>
     </div>

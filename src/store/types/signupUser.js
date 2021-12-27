@@ -1,0 +1,6 @@
+const SignupUser = {
+    USER_REGISTER_SUCCESS: 'USER_REGISTER_SUCCESS',
+    USER_REGISTER_FAILED: 'USER_REGISTER_FAILED' 
+}
+
+export default SignupUser;

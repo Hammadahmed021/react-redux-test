@@ -1,0 +1,6 @@
+const SignupSaloon = {
+    SALOON_REGISTER_SUCCESS: 'SALOON_REGISTER_SUCCESS',
+    SALOON_REGISTER_FAILED: 'SALOON_REGISTER_FAILED' 
+}
+
+export default SignupSaloon;
