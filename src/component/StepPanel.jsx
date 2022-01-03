@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Steps } from "antd";
-
-
 
 const StepPanel = ({ steps, stepForm }) => {
   const [activeStep, setActiveStep] = useState(0);
   const next = () => {
-    stepForm
-      .validateFields()
-      .then(() => {
-        setActiveStep((prevStep) => prevStep + 1);
-      })
-      .catch((err) => console.log(err));
+    setActiveStep((prevStep) => prevStep + 1);
   };
   const prev = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
+
+  useEffect(() => {
+    stepForm
+      .validateFields()
+      .then(() => {
+        next()
+        // do whatever you need to
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [activeStep]);
+
   return (
     <>
       <Steps
@@ -55,6 +61,5 @@ const StepPanel = ({ steps, stepForm }) => {
     </>
   );
 };
-
 
 export default StepPanel;
