@@ -12,11 +12,15 @@ import {
   AutoComplete,
   TimePicker,
   Upload,
+  notification
 } from "antd";
 import axios from "axios";
 import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
 import moment from "moment";
 import API from "../services/API";
+import { Route, useNavigate } from "react-router";
+import ReCAPTCHA from "react-google-recaptcha";
+// import { Link, Route } from "react-router-dom";
   
 
 const { Option } = Select;
@@ -27,7 +31,7 @@ const formItemLayout = {
       span: 12,
     },
     sm: {
-      span: 4,
+      span: 3,
     },
   },
   wrapperCol: {
@@ -35,7 +39,7 @@ const formItemLayout = {
       span: 12,
     },
     sm: {
-      span: 16,
+      span: 21,
     },
   },
 };
@@ -47,7 +51,7 @@ const tailFormItemLayout = {
     },
     sm: {
       span: 24,
-      offset: 4,
+      offset: 3,
     },
   },
 };
@@ -66,7 +70,7 @@ const RegistrationForm = () => {
       );
       setCountry(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -84,7 +88,7 @@ const RegistrationForm = () => {
       );
       setCity(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -92,33 +96,54 @@ const RegistrationForm = () => {
 
   const getArea = async (param) => {
     try {
-      console.log(param);
+      // console.log(param);
 
       const response = await API.get("/city-areas", {
         params: { city: param },
       });
       setArea(response.data.areas);
-      console.log(response);
+      // console.log(response);
       // console.log(area);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
  
+  const navigate = useNavigate();
   const saloonRegister = async (params) => {
+   
     
     try {
-      console.log(params);
-      const { data } = await API.post("/salon/register", params);
+
       
-      console.log(data);
+      // console.log(params);
+      const { data, status } = await API.post("/salon/register", params);{
+        console.log(data);
+       
+     if( status === 200){      
+      notification.success({
+        message: 'Salon Registered',
+        description:
+          'Congragulation your salon has been registered successfully.',
+      })
+      window.location.href = 'https://metglam-portal.staginganideos.com/';
+          
+    }  
+    
+     }
+      
+   
+    } catch (error) {      
+      notification.error({
+        message: "Alert",
+        description: error?.response?.data?.message || "unknown error",
+      });
+      
      
-      
-      // console.log(area);
-    } catch (error) {
-      console.log(error);
     }
   };
+
+  
 
   const getUserLatLong = () => {
     if (navigator.geolocation) {
@@ -156,7 +181,9 @@ const RegistrationForm = () => {
   }, []);
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  
+  
+    // console.log("Received values of form: ", values);
     const timeTo = moment(values.servicetime[0]._d).format(" h:mm:ss a");
     const timeFrom = moment(values.servicetime[1]._d).format(" h:mm:ss a");
     const params = {
@@ -175,19 +202,24 @@ const RegistrationForm = () => {
       country: values.country,
       phone: values.phone,
       area: values?.area,
+      
+      
     };
     const formData = new FormData();
+    
     Object.entries(params).forEach(([key, val]) => {
       if (key == "area") {
         formData.append(`${key}[]`, `[${val}]`);
       } else formData.append(key, val);
     });
-    console.log(params);
-    saloonRegister(formData).then(res=>form.setFieldsValue([]),  form.resetFields());
+    // console.log(params);
+
+    
   };
+  
 
   const normFile = (e) => {
-    console.log("Upload event:", e);
+    // console.log("Upload event:", e);
 
     if (Array.isArray(e)) {
       return e;
@@ -195,11 +227,14 @@ const RegistrationForm = () => {
 
     return e && e.fileList;
   };
+ const onChange = (value) => {
+    console.log("Captcha value:", value);
+  }
 
   return (
     <div className="container">
-      <div className="row p-5">
-        <div className="col-md-12">
+      <div className="row justify-content-center p-5">
+        <div className="col-md-10">
           <Form
             {...formItemLayout}
             form={form}
@@ -213,7 +248,7 @@ const RegistrationForm = () => {
           >
             <Form.Item
               name="title"
-              label="Enter Title"
+              label="Salon's name"
               // tooltip="What do you want others to call you?"
               rules={[
                 {
@@ -227,8 +262,15 @@ const RegistrationForm = () => {
             </Form.Item>
             <Form.Item
               name="upload"
-              label="Image"
+              label="Logo"
               valuePropName="fileList"
+              rules={[
+                {
+                  required: true,
+                  message: "Please upload image!",
+                  
+                },
+              ]}
               getValueFromEvent={normFile}
             >
               <Upload name="logo" action="/upload.do" listType="picture">
@@ -312,6 +354,8 @@ const RegistrationForm = () => {
             <Form.Item
               name="country"
               label="Country"
+           
+              
               rules={[
                 {
                   required: true,
@@ -322,6 +366,7 @@ const RegistrationForm = () => {
               <Select
                 showSearch
                 placeholder="select your country"
+               
                 onChange={getCity}
               >
                 {country?.map((item, ind) => (
@@ -335,6 +380,7 @@ const RegistrationForm = () => {
             <Form.Item
               name="city"
               label="City"
+          
               rules={[
                 {
                   required: true,
@@ -452,6 +498,30 @@ const RegistrationForm = () => {
               ]}
             >
               <Input.TextArea showCount maxLength={200} />
+            </Form.Item>
+
+            {/* <Form.Item label="Captcha" extra="We must make sure that your are a human.">
+              <Row gutter={8}>
+                <Col span={12}>
+                  <Form.Item
+                    name="captcha"
+                    noStyle
+                    rules={[{ required: true, message: 'Please input the captcha you got!' }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Button>Get captcha</Button>
+                </Col>
+              </Row>
+            </Form.Item> */}
+
+            <Form.Item>
+            <ReCAPTCHA
+                sitekey= "6Le70NodAAAAAEN9c6qpqE0gPw6T5-lF4DuCWvbe"
+                onChange={onChange}
+              />
             </Form.Item>
 
             <Form.Item

@@ -11,11 +11,11 @@ const Main = () => {
                 <div className=' main-landing'>
                     <div className='landing-sub'>
                 <img src={logo} alt="" />
-                <h1>Welcome to metglam</h1>
+                <h1>Welcome to Metglam</h1>
                 <div className='btn-together'>
                     <Link to="/Login">Signup as User</Link>
                     
-                    <Link to="/Signup">Signup as Saloon</Link>
+                    <Link to="/Signup">Signup as Salon</Link>
                     </div>
                     </div>
                 </div>

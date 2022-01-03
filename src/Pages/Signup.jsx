@@ -3,6 +3,7 @@ import RegistrationForm from '../component/SignupForm';
 import API from './../services/API';
 import logo from './../assests/logo-dark.png'
 import { Footer } from './Footer';
+import { MyStepForm } from '../component/MyStepForm';
 
 
 // export default Signup;
@@ -16,9 +17,10 @@ const Signup = () => {
         <div className='row'>
             <div className='signup-user signup-saloon'>
               <img src={logo} alt="" />
-              <h1>Saloon Registration</h1>
+              <h1>Salon Registration</h1>
             </div>
-            <RegistrationForm />
+            {/* <RegistrationForm /> */}
+            {<MyStepForm />}
         </div>
         </div>
         <Footer />

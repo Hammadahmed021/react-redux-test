@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
-    Form,
-    Input,
-    InputNumber,
-    Cascader,
-    Select,
-    Row,
-    Col,
-    Checkbox,
-    Button,
-    AutoComplete,
-    TimePicker,
-    Upload
-  } from 'antd';
-  import axios from 'axios';
-  import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
-  import API from '../services/API';
+  Form,
+  Input,
+  InputNumber,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete,
+  TimePicker,
+  Upload,
+  notification,
+} from "antd";
+import axios from "axios";
+import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
+import moment from "moment";
+import API from "../services/API";
+import { Route, useNavigate } from "react-router";
 
-
-  const { Option } = Select;
+const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -26,7 +28,7 @@ const formItemLayout = {
       span: 12,
     },
     sm: {
-      span: 4,
+      span: 24,
     },
   },
   wrapperCol: {
@@ -34,7 +36,7 @@ const formItemLayout = {
       span: 12,
     },
     sm: {
-      span: 16,
+      span: 24,
     },
   },
 };
@@ -46,7 +48,7 @@ const tailFormItemLayout = {
     },
     sm: {
       span: 24,
-      offset: 4,
+      offset: 0,
     },
   },
 };
@@ -65,7 +67,7 @@ const SignupUser = () => {
       );
       setCountry(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -83,7 +85,7 @@ const SignupUser = () => {
       );
       setCity(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -91,33 +93,46 @@ const SignupUser = () => {
 
   const getArea = async (param) => {
     try {
-      console.log(param);
+      // console.log(param);
 
       const response = await API.get("/city-areas", {
         params: { city: param },
       });
       setArea(response.data.areas);
-      console.log(response);
+      // console.log(response);
       // console.log(area);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
-  const userRegister = async (params) => {
+  const navigate = useNavigate();
+  const saloonRegister = async (params) => {
     try {
-   
-      const { data } = await API.post("/user/register", params);
-      
-      console.log(data);
-      
-      // console.log(area);
+      // console.log(params);
+      const { data, status } = await API.post("/user/register", params);
+
+      console.log(data, status);
+
+      if (status === 200) {
+        notification.success({
+          message: "User Registered",
+          description: "Congragulation you have been registered successfully.",
+        });
+        // window.location.href = 'https://metglam-portal.staginganideos.com/';
+      }
     } catch (error) {
-      console.log(error);
+     
+      notification.error({
+        message: "Alert",
+        description: error?.response?.data?.message || "unknown error",
+      });
+
+    
+    
     }
   };
 
-  
   const getUserLatLong = () => {
     if (navigator.geolocation) {
       navigator.permissions
@@ -154,50 +169,59 @@ const SignupUser = () => {
   }, []);
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
- 
+    // console.log("Received values of form: ", values);
+    // const timeTo = moment(values.servicetime[0]._d).format(" h:mm:ss a");
+    // const timeFrom = moment(values.servicetime[1]._d).format(" h:mm:ss a");
     const params = {
+      profile_photo: values?.upload[0]?.originFileObj,
+      lat: values.latitude,
+      long: values.longitude,
+      address: values.address,
       name: values.name,
-      lat: String(values.latitude),
-      long: String(values.longitude),     
       email: values.email,
       password: values.password,
-      address: values.address,
+      confirm_password: values.confirmPas,
       city: values.city,
       country: values.country,
-      // phone: values.phone,
+      phone: values.phone,
       area: values?.area,
     };
-    // const formData = new FormData();
-    // Object.entries(params).forEach(([key, val]) => {
-    //   console.log(key , val);
-    //   if (key == "area") {
-    //     formData.append(`${key}[]`, `[${val}]`);
-    //   } else formData.append(key, val);
-    // });
+    const formData = new FormData();
+    Object.entries(params).forEach(([key, val]) => {
+      if (key == "area") {
+        formData.append(`${key}`, `[${val}]`);
+      } else formData.append(key, val);
+    });
     // console.log(params);
-    // console.log(formData);
-    userRegister(params).then(res=>form.setFieldsValue([]),  form.resetFields());
+
+    saloonRegister(formData).then((res) => form.setFieldsValue([]));
   };
 
- 
+  const normFile = (e) => {
+    // console.log("Upload event:", e);
+
+    if (Array.isArray(e)) {
+      return e;
+    }
+
+    return e && e.fileList;
+  };
+  
 
   return (
     <div className="container">
-      <div className="row p-5">
-        <div className="col-md-12">
+      <div className="row justify-content-center ">
+        <div className="col-md-9">
           <Form
             {...formItemLayout}
             form={form}
+            layout="vertical"
             name="register"
             onFinish={onFinish}
-            // initialValues={{
-            //   residence: ["zhejiang", "hangzhou", "xihu"],
-            //   prefix: "86",
-            // }}
+           
             scrollToFirstError
           >
-                  <Form.Item
+            <Form.Item
               name="name"
               label="Name"
               // tooltip="What do you want others to call you?"
@@ -210,6 +234,22 @@ const SignupUser = () => {
               ]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item
+              name="upload"
+              label="Profile Photo"
+              valuePropName="fileList"
+              rules={[
+                {
+                  required: true,
+                  message: "Please upload image!",
+                },
+              ]}
+              getValueFromEvent={normFile}
+            >
+              <Upload name="logo" action="/upload.do" listType="picture">
+                <Button icon={<UploadOutlined />}>Click to upload</Button>
+              </Upload>
             </Form.Item>
             <Form.Item
               name="email"
@@ -241,22 +281,8 @@ const SignupUser = () => {
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item
-              name="address"
-              label="Address"
-              // tooltip="What do you want others to call you?"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your address",
-                  whitespace: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
 
-            {/* <Form.Item
+            <Form.Item
               name="confirmPas"
               label="Confirm Password"
               dependencies={["password"]}
@@ -282,9 +308,40 @@ const SignupUser = () => {
               ]}
             >
               <Input.Password />
-            </Form.Item> */}
+            </Form.Item>
 
-     
+            <Form.Item
+              name="phone"
+              label="Phone Number"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your phone number!",
+                },
+              ]}
+            >
+              <Input
+                // addonBefore={prefixSelector}
+                style={{
+                  width: "100%",
+                }}
+              />
+            </Form.Item>
+            
+            <Form.Item
+              name="address"
+              label="Address"
+              // tooltip="What do you want others to call you?"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your address!",
+                  whitespace: true,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
 
             <Form.Item
               name="country"
@@ -347,7 +404,6 @@ const SignupUser = () => {
                 showSearch
                 disabled={!area.length}
                 placeholder="select your area"
-                // mode="multiple"
                 allowClear
               >
                 {area?.map((item, ind) => (
@@ -385,24 +441,6 @@ const SignupUser = () => {
             >
               <Input />
             </Form.Item>
-           
-            {/* <Form.Item
-              name="phone"
-              label="Phone Number"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your phone number!",
-                },
-              ]}
-            >
-              <Input
-                // addonBefore={prefixSelector}
-                style={{
-                  width: "100%",
-                }}
-              />
-            </Form.Item> */}
 
             
 
@@ -424,7 +462,7 @@ const SignupUser = () => {
               </Checkbox>
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit" >
+              <Button type="primary" htmlType="submit">
                 Register
               </Button>
             </Form.Item>

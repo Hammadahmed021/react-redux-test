@@ -138,3 +138,7 @@ footer.footer {
 .ant-form{
   font-family: 'Montserrat';
 }
+.hidden { display: none; } 
+.steps-action {
+  margin-left: 14%;
+} 

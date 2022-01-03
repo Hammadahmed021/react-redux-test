@@ -87,8 +87,7 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-            isLoggedIn: state
-            
+            isLoggedIn: state           
            
     }
 }

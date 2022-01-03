@@ -11,13 +11,17 @@
     "js-cookie": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-google-recaptcha": "^2.1.0",
     "react-redux": "^7.2.6",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-thunk": "^1.0.0",
+    "react-toastify": "^8.1.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "rjv": "^5.0.0-alpha.9",
+    "rjv-react": "^5.0.0-alpha.20",
     "web-vitals": "^2.1.2"
   },
   "scripts": {

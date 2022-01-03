@@ -9,6 +9,7 @@ import 'antd/dist/antd.css';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Footer } from './Pages/Footer';
+import RegistrationForm from './component/SignupForm';
 
 function App() {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -18,33 +19,29 @@ function App() {
 
     console.log(token);
     // setAuthToken(token);
-
-    API.interceptors.request.use(
-      (config) => {
-        setLoading(true)
-        console.log(config , 'config');
-       
-        config.headers.Authorization = `Bearer ${token}`;
-        
-        return config;
-      },
-      (error) => {
-        setLoading(false)
-        console.log(error);
-      },
-    );
-
-    API.interceptors.response.use(
-      (config) => {
-        setLoading(false)
+    API.interceptors.request.use(function (config) {
+      setLoading(true)
+      // Do something before request is sent
+      return config;
+    }, function (error) {
+      setLoading(false)
+      // Do something with request error
+      return Promise.reject(error);
+    });
     
-        return config;
-      },
-      (err) => {
-        setLoading(false)
-        console.log(err);
-      },
-    );
+    // Add a response interceptor
+    API.interceptors.response.use(function (response) {
+      setLoading(false)
+      // Any status code that lie within the range of 2xx cause this function to trigger
+      // Do something with response data
+      return response;
+    }, function (error) {
+      setLoading(false)
+      // Any status codes that falls outside the range of 2xx cause this function to trigger
+      // Do something with response error
+      return Promise.reject(error);
+    });
+    
     
   }, [])
 
@@ -62,6 +59,7 @@ function App() {
      
       <Route path="/Login" element={<Login />} />
       <Route path="/Signup" element={<Signup />} />
+      <Route path="/RegistrationForm" element={<RegistrationForm /> } />
       {/* <Route path="/Logout" element={<Logout/>} />    */}
       {/* <Route path="/Service" element={<Service/>} />  */}
       
