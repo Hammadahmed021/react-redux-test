@@ -3,7 +3,8 @@ import RegistrationForm from '../component/SignupForm';
 import API from './../services/API';
 import logo from './../assests/logo-dark.png'
 import { Footer } from './Footer';
-import { MyStepForm } from '../component/MyStepForm';
+// import { MyStepForm } from '../component/MyStepForm';
+import FinalForm from '../component/StepForms/FinalForm';
 
 
 // export default Signup;
@@ -20,7 +21,8 @@ const Signup = () => {
               <h1>Salon Registration</h1>
             </div>
             {/* <RegistrationForm /> */}
-            {<MyStepForm />}
+            {/* {<MyStepForm />} */}
+            {<FinalForm />}
         </div>
         </div>
         <Footer />

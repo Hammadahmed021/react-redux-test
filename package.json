@@ -22,6 +22,7 @@
     "redux-thunk": "^2.4.1",
     "rjv": "^5.0.0-alpha.9",
     "rjv-react": "^5.0.0-alpha.20",
+    "rjv-react-antd": "^1.0.0-beta.4",
     "web-vitals": "^2.1.2"
   },
   "scripts": {

@@ -142,3 +142,16 @@ footer.footer {
 .steps-action {
   margin-left: 14%;
 } 
+.ant-row {
+  display: block !important;
+  flex-wrap: nowrap !important;
+  text-align: left !important;
+}
+h2.heading-form-step {
+  text-align: center;
+  padding: 20px 0;
+  font-family: 'Montserrat';
+  font-size: 24px;
+  text-decoration: underline;
+  font-weight: 400;
+}
