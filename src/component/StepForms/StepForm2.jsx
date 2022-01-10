@@ -73,7 +73,7 @@ export const StepForm2 = (props) => {
             </Form.Item>
 
             <Form.Item
-              name="confirmPas  "
+              name="confirmPas"
               label="Confirm Password"
               dependencies={["password"]}
               hasFeedback

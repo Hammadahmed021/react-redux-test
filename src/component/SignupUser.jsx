@@ -2,21 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
-  InputNumber,
-  Cascader,
   Select,
-  Row,
-  Col,
   Checkbox,
   Button,
-  AutoComplete,
-  TimePicker,
   Upload,
   notification,
 } from "antd";
-import axios from "axios";
-import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
-import moment from "moment";
+import { UploadOutlined } from "@ant-design/icons";
 import API from "../services/API";
 import { Route, useNavigate } from "react-router";
 
@@ -54,52 +46,44 @@ const tailFormItemLayout = {
 };
 
 const SignupUser = () => {
+  const [form] = Form.useForm();
   const [country, setCountry] = useState([]);
   const [city, setCity] = useState([]);
-  const [form] = Form.useForm();
+  const [area, setArea] = useState([]);
 
   const getCountry = async () => {
     try {
       const {
-        data: { data },
-      } = await axios.get(
-        "https://countriesnow.space/api/v0.1/countries/flag/unicode"
-      );
-      setCountry(data);
+        data: { countries },
+      } = await API.get("/countries");
+      setCountry(countries);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
-  const getCity = async (param) => {
+  const getCity = async (country_id) => {
     try {
       setCity([]);
-
       const {
-        data: { data },
-      } = await axios.post(
-        "https://countriesnow.space/api/v0.1/countries/cities/",
-        {
-          country: param,
-        }
-      );
-      setCity(data);
+        data: { cities },
+      } = await API.get(`/cities?country_id=${country_id}`);
+      setCity(cities);
     } catch (error) {
       // console.log(error);
     }
   };
 
-  const [area, setArea] = useState([]);
-
-  const getArea = async (param) => {
+  const getArea = async (city_id) => {
     try {
       // console.log(param);
+      console.log(city_id, "sds");
 
-      const response = await API.get("/city-areas", {
-        params: { city: param },
-      });
-      setArea(response.data.areas);
-      // console.log(response);
+      const {
+        data: { areas },
+      } = await API.get(`/city-areas?city_id=${city_id}`);
+      setArea(areas);
+
       // console.log(area);
     } catch (error) {
       // console.log(error);
@@ -122,14 +106,10 @@ const SignupUser = () => {
         // window.location.href = 'https://metglam-portal.staginganideos.com/';
       }
     } catch (error) {
-     
       notification.error({
         message: "Alert",
         description: error?.response?.data?.message || "unknown error",
       });
-
-    
-    
     }
   };
 
@@ -206,7 +186,6 @@ const SignupUser = () => {
 
     return e && e.fileList;
   };
-  
 
   return (
     <div className="container">
@@ -218,7 +197,6 @@ const SignupUser = () => {
             layout="vertical"
             name="register"
             onFinish={onFinish}
-           
             scrollToFirstError
           >
             <Form.Item
@@ -327,7 +305,7 @@ const SignupUser = () => {
                 }}
               />
             </Form.Item>
-            
+
             <Form.Item
               name="address"
               label="Address"
@@ -357,10 +335,16 @@ const SignupUser = () => {
                 showSearch
                 placeholder="select your country"
                 onChange={getCity}
+                filterOption={(input, option) =>
+                  option.value?.toLowerCase().indexOf(input.toLowerCase()) >=
+                    0 ||
+                  option.children?.toLowerCase().indexOf(input.toLowerCase()) >=
+                    0
+                }
               >
                 {country?.map((item, ind) => (
-                  <Option key={ind} value={item.name}>
-                    {item.name}
+                  <Option key={item._id} value={item._id}>
+                    {item.country}
                   </Option>
                 ))}
               </Select>
@@ -381,10 +365,16 @@ const SignupUser = () => {
                 disabled={!city.length}
                 placeholder="select your city"
                 onChange={getArea}
+                filterOption={(input, option) =>
+                  option.value?.toLowerCase().indexOf(input.toLowerCase()) >=
+                    0 ||
+                  option.children?.toLowerCase().indexOf(input.toLowerCase()) >=
+                    0
+                }
               >
                 {city?.map((item, ind) => (
-                  <Option key={item} value={item}>
-                    {item}
+                  <Option key={item._id} value={item._id}>
+                    {item.city}
                   </Option>
                 ))}
               </Select>
@@ -405,6 +395,12 @@ const SignupUser = () => {
                 disabled={!area.length}
                 placeholder="select your area"
                 allowClear
+                filterOption={(input, option) =>
+                  option.value?.toLowerCase().indexOf(input.toLowerCase()) >=
+                    0 ||
+                  option.children?.toLowerCase().indexOf(input.toLowerCase()) >=
+                    0
+                }
               >
                 {area?.map((item, ind) => (
                   <Option key={item._id} value={item._id}>
@@ -441,8 +437,6 @@ const SignupUser = () => {
             >
               <Input />
             </Form.Item>
-
-            
 
             <Form.Item
               name="agreement"

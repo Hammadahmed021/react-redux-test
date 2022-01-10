@@ -128,125 +128,137 @@ export const StepForm1 = (props) => {
 
   return (
     <div>
-          <Form form={form} onFinish={validateInput}>
-            <Form.Item
-              name="title"
-              label="Salon name"
-              rules={[{ required: true, message: "Please enter your name!" }]}
-            >
-              <Input />
-            </Form.Item>
+      <Form form={form} onFinish={validateInput}>
+        <Form.Item
+          name="title"
+          label="Salon name"
+          rules={[{ required: true, message: "Please enter your name!" }]}
+        >
+          <Input />
+        </Form.Item>
 
-            <Form.Item
-              name="upload"
-              label="Logo"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
-              rules={[{ required: true, message: "Please upload image!" }]}
-            >
-              <Upload name="logo" action="/upload.do" listType="picture">
-                <Button icon={<UploadOutlined />}>Click to upload</Button>
-              </Upload>
-            </Form.Item>
+        <Form.Item
+          name="upload"
+          label="Logo"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          rules={[{ required: true, message: "Please upload image!" }]}
+        >
+          <Upload name="logo" action="/upload.do" listType="picture">
+            <Button icon={<UploadOutlined />}>Click to upload</Button>
+          </Upload>
+        </Form.Item>
 
-            <Form.Item
-              name="country"
-              label="Country"
-              rules={[
-                { required: true, message: "Please select your country!" },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="select your country"
-                onChange={getCity}
-              >
-                {country?.map((item, ind) => (
-                  <Option key={ind} value={item._id}>
-                    {item.country}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
+        <Form.Item
+          name="country"
+          label="Country"
+          rules={[{ required: true, message: "Please select your country!" }]}
+        >
+          <Select
+            showSearch
+            placeholder="select your country"
+            onChange={getCity}
+            filterOption={(input, option) =>
+              option.value?.toLowerCase().indexOf(input.toLowerCase()) >=
+              0 ||
+              option.children?.toLowerCase().indexOf(input.toLowerCase()) >=
+              0}
+          >
+            {country?.map((item, ind) => (
+              <Option key={item._id} value={item._id}>
+                {item.country}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
 
-            <Form.Item
-              name="city"
-              label="City"
-              rules={[{ required: true, message: "Please select your city!" }]}
-            >
-              <Select
-                showSearch
-                disabled={!city.length}
-                placeholder="select your city"
-                onChange={getArea}
-              >
-                {city?.map((item, ind) => (
-                  <Option key={item} value={item._id}>
-                    {item.city}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
+        <Form.Item
+          name="city"
+          label="City"
+          rules={[{ required: true, message: "Please select your city!" }]}
+        >
+          <Select
+            showSearch
+            disabled={!city.length}
+            placeholder="select your city"
+            onChange={getArea}
+            filterOption={(input, option) =>
+              option.value?.toLowerCase().indexOf(input.toLowerCase()) >=
+              0 ||
+              option.children?.toLowerCase().indexOf(input.toLowerCase()) >=
+              0}
+          >
+            {city?.map((item, ind) => (
+              <Option key={item._id} value={item._id}>
+                {item.city}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
 
-            <Form.Item
-              name="area"
-              label="Area"
-              rules={[{ required: true, message: "Please select your area!" }]}
-            >
-              <Select
-                showSearch
-                disabled={!area.length}
-                placeholder="select your area"
-                mode="multiple"
-                allowClear
-              >
-                {area?.map((item, ind) => (
-                  <Option key={item._id} value={item._id}>
-                    {item.area}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
+        <Form.Item
+          name="area"
+          label="Area"
+          rules={[{ required: true, message: "Please select your area!" }]}
+        >
+          <Select
+            showSearch
+            disabled={!area.length}
+            placeholder="select your area"
+            mode="multiple"
+            allowClear
+            filterOption={(input, option) =>
+              option.value?.toLowerCase().indexOf(input.toLowerCase()) >=
+              0 ||
+              option.children?.toLowerCase().indexOf(input.toLowerCase()) >=
+              0}
+          >
+            {area?.map((item, ind) => (
+              <Option key={item._id} value={item._id}>
+                {item.area}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
 
-            <Form.Item
-              name="latitude"
-              label="Latitude"
-              rules={[{ required: true, message: "0.23290213" }]}
-            >
-              <Input disabled />
-            </Form.Item>
+        <Form.Item
+          name="latitude"
+          label="Latitude"
+          rules={[{ required: true, message: "0.23290213" }]}
+        >
+          <Input disabled />
+        </Form.Item>
 
-            <Form.Item
-              name="longitude"
-              label="Longitude"
-              rules={[{ required: true, message: "0.23290213" }]}
-            >
-              <Input disabled />
-            </Form.Item>
+        <Form.Item
+          name="longitude"
+          label="Longitude"
+          rules={[{ required: true, message: "0.23290213" }]}
+        >
+          <Input disabled />
+        </Form.Item>
 
-            <Form.Item
-              name="servicetime"
-              label="Service Duration"
-              rules={[{ required: true }]}
-            >
-              <TimePicker.RangePicker />
-            </Form.Item>
+        <Form.Item
+          name="servicetime"
+          label="Service Duration"
+          rules={[{ required: true }]}
+        >
+          <TimePicker.RangePicker />
+        </Form.Item>
 
-            <Form.Item
-              name="description"
-              label="Description"
-              rules={[{ required: true, message: "Please enter description" }]}
-            >
-              <Input.TextArea showCount maxLength={200} />
-            </Form.Item>
+        <Form.Item
+          name="description"
+          label="Description"
+          rules={[{ required: true, message: "Please enter description" }]}
+        >
+          <Input.TextArea showCount maxLength={200} />
+        </Form.Item>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Next
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Next
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };

@@ -77,8 +77,9 @@ class FinalForm extends Component {
     const formData = new FormData();
 
     Object.entries(params).forEach(([key, val]) => {
+      
       if (key == "area") {
-        formData.append(`${key}[]`, `[${val}]`);
+        val.forEach((val)=>formData.append(`${key}[]`, `${val}`))
       } else formData.append(key, val);
     });
     // console.log(params);
