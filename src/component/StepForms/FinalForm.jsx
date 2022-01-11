@@ -108,7 +108,7 @@ class FinalForm extends Component {
         <div className="container">
       <div className="row justify-content-center">
         <div className="col-9">
-          {<h2 className="heading-form-step"> Salon Info </h2>}
+          {/* {<h2 className="heading-form-step"> Salon Info </h2>} */}
           <StepForm1
             values={stepOne}
             handleNextButton={this.handleNextButton}
@@ -123,7 +123,7 @@ class FinalForm extends Component {
         <div className="container">
       <div className="row justify-content-center">
         <div className="col-9">
-          {<h2 className="heading-form-step"> User Info </h2>}
+          {/* {<h2 className="heading-form-step"> Salon Info </h2>} */}
           <StepForm2
             handleConfirmButton={this.handleConfirmButton}
             handleBackButton={this.handleBackButton}

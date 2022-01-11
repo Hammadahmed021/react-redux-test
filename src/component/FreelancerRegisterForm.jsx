@@ -49,7 +49,7 @@ const onChange = (value) => {
   console.log("Captcha value:", value);
 };
 
-const SignupUser = () => {
+const FreelancerRegisterForm = () => {
   const [form] = Form.useForm();
   const [country, setCountry] = useState([]);
   const [city, setCity] = useState([]);
@@ -93,18 +93,16 @@ const SignupUser = () => {
       // console.log(error);
     }
   };
-
-  const navigate = useNavigate();
-  const saloonRegister = async (params) => {
+  const freelancerRegister = async (params) => {
     try {
       // console.log(params);
-      const { data, status } = await API.post("/user/register", params);
+      const { data, status } = await API.post("/freelancer/register", params);
 
       console.log(data, status);
 
       if (status === 200) {
         notification.success({
-          message: "User Registered",
+          message: "Freelancer Registered",
           description: "Congragulation you have been registered successfully.",
         });
         // window.location.href = 'https://metglam-portal.staginganideos.com/';
@@ -153,14 +151,10 @@ const SignupUser = () => {
   }, []);
 
   const onFinish = (values) => {
-    // console.log("Received values of form: ", values);
-    // const timeTo = moment(values.servicetime[0]._d).format(" h:mm:ss a");
-    // const timeFrom = moment(values.servicetime[1]._d).format(" h:mm:ss a");
     const params = {
-      profile_photo: values?.upload[0]?.originFileObj,
+      image: values?.upload[0]?.originFileObj,
       lat: values.latitude,
       long: values.longitude,
-      address: values.address,
       name: values.name,
       email: values.email,
       password: values.password,
@@ -173,12 +167,12 @@ const SignupUser = () => {
     const formData = new FormData();
     Object.entries(params).forEach(([key, val]) => {
       if (key == "area") {
-        formData.append(`${key}`, `[${val}]`);
+        val.forEach((val) => formData.append(`${key}[]`, `${val}`));
       } else formData.append(key, val);
     });
     // console.log(params);
 
-    saloonRegister(formData).then((res) => form.setFieldsValue([]));
+    freelancerRegister(formData).then((res) => form.setFieldsValue([]));
   };
 
   const normFile = (e) => {
@@ -190,7 +184,6 @@ const SignupUser = () => {
 
     return e && e.fileList;
   };
-
   return (
     <div className="container">
       <div className="row justify-content-center ">
@@ -311,21 +304,6 @@ const SignupUser = () => {
             </Form.Item>
 
             <Form.Item
-              name="address"
-              label="Address"
-              // tooltip="What do you want others to call you?"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your address!",
-                  whitespace: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
               name="country"
               label="Country"
               rules={[
@@ -389,7 +367,7 @@ const SignupUser = () => {
               label="Area"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: "Please select your area!",
                 },
               ]}
@@ -399,6 +377,7 @@ const SignupUser = () => {
                 disabled={!area.length}
                 placeholder="select your area"
                 allowClear
+                mode="multiple"
                 filterOption={(input, option) =>
                   option.value?.toLowerCase().indexOf(input.toLowerCase()) >=
                     0 ||
@@ -425,7 +404,7 @@ const SignupUser = () => {
                 },
               ]}
             >
-              <Input  disabled />
+              <Input disabled />
             </Form.Item>
 
             <Form.Item
@@ -439,18 +418,18 @@ const SignupUser = () => {
                 },
               ]}
             >
-              <Input  disabled />
+              <Input disabled />
             </Form.Item>
 
             <Form.Item
-                name="captcha"
-               rules={[
-                 {
-                   required: true,
-                   message: 'Should mark captcha!',
-                 },
-               ]}>
-                           
+              name="captcha"
+              rules={[
+                {
+                  required: true,
+                  message: "Should mark captcha!",
+                },
+              ]}
+            >
               <ReCAPTCHA
                 sitekey="6Le70NodAAAAAEN9c6qpqE0gPw6T5-lF4DuCWvbe"
                 onChange={onChange}
@@ -486,4 +465,4 @@ const SignupUser = () => {
   );
 };
 
-export default SignupUser;
+export default FreelancerRegisterForm;

@@ -100,7 +100,15 @@ export const StepForm2 = (props) => {
               <Input.Password />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item
+                name="captcha"
+               rules={[
+                 {
+                   required: true,
+                   message: 'Should mark captcha!',
+                 },
+               ]}>
+                           
               <ReCAPTCHA
                 sitekey="6Le70NodAAAAAEN9c6qpqE0gPw6T5-lF4DuCWvbe"
                 onChange={onChange}
